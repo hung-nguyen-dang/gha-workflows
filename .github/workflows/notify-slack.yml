@@ -27,10 +27,10 @@ on:
         description: URL the "View run" button links to
         type: string
         default: ''
+    secrets:
       webhook-url:
-        description: Slack incoming-webhook URL. Pass via secret if you prefer
+        description: Slack incoming-webhook URL
         required: true
-        type: string
 
 jobs:
   notify:
@@ -67,7 +67,7 @@ jobs:
       - name: Send to Slack
         uses: slackapi/slack-github-action@v2
         with:
-          webhook: ${{ inputs.webhook-url }}
+          webhook: ${{ secrets.webhook-url }}
           webhook-type: incoming-webhook
           payload: |
             {

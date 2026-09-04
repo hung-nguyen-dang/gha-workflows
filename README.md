@@ -20,20 +20,31 @@ jobs:
     with:
       status: ${{ needs.deploy.result }}
       title: deployment
+    secrets:
       webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
 ```
+
+`secrets.*` can't be referenced inside `with:` — GitHub only resolves `github`,
+`inputs`, `needs`, `vars`, `strategy`, `matrix` there. That's why `webhook-url`
+is declared under `secrets:` in this workflow, not `inputs:`, and callers must
+pass it via `secrets:`, not `with:`.
 
 ### Inputs
 
 | Name          | Required | Default     | Description |
 |---------------|----------|-------------|-------------|
 | `status`      | yes      | —           | Result to report: `success`, `failure`, `cancelled`, `skipped`. Pass `${{ needs.<job>.result }}`. |
-| `webhook-url` | yes      | —           | Slack incoming-webhook URL. Use a secret. |
 | `app-name`    | no       | `owner/repo`| Name shown in the message. |
 | `title`       | no       | `deployment`| Headline word, e.g. `release`, `smoke test`. |
 | `message`     | no       | `''`        | Extra mrkdwn appended on its own line. |
 | `show-commit` | no       | `true`      | Include branch + short SHA link + commit subject. |
 | `run-url`     | no       | this run    | URL the **View run** button opens. |
+
+### Secrets
+
+| Name          | Required | Description |
+|---------------|----------|-------------|
+| `webhook-url` | yes      | Slack incoming-webhook URL. |
 
 ### Message example
 
