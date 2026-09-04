@@ -1,4 +1,4 @@
-name: Notify Slack
+name: Notify Run Status
 
 on:
   workflow_call:

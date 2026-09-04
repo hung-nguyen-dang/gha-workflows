@@ -2,9 +2,11 @@
 
 Reusable GitHub Actions workflows.
 
-## `notify-slack.yml`
+## `notify-run-status.yml`
 
-Sends a single Slack message via an incoming webhook. That is all it does.
+Posts a workflow run's status to Slack via an incoming webhook: icon +
+result, branch/commit, optional extra line, and a "View run" button. Not a
+general-purpose Slack messenger — it only sends this one templated shape.
 
 ### Usage
 
@@ -16,7 +18,7 @@ jobs:
   notify:
     needs: deploy
     if: always()
-    uses: hung-nguyen-dang/gha-workflows/.github/workflows/notify-slack.yml@v1
+    uses: hung-nguyen-dang/gha-workflows/.github/workflows/notify-run-status.yml@v1
     with:
       status: ${{ needs.deploy.result }}
       title: deployment
